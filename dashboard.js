@@ -3,7 +3,7 @@
 if (typeof Chart !== 'undefined') {
     Chart.defaults.color = '#8eacc8';
     Chart.defaults.borderColor = 'rgba(30,58,95,0.5)';
-    Chart.defaults.font.family = 'Inter';
+    Chart.defaults.font.size = 8;
 } else {
     console.error("CRITICAL: Chart.js library not loaded. Check network connection or script tag.");
 }
@@ -15,7 +15,7 @@ const COLORS = {
 
 const baseOpts = {
     responsive: true, maintainAspectRatio: true,
-    plugins: { legend: { labels: { padding: 16, usePointStyle: true, pointStyleWidth: 10, font: { size: 12 } } } }
+    plugins: { legend: { labels: { padding: 4, usePointStyle: true, pointStyleWidth: 5, font: { size: 10, weight: 'bold' } } } }
 };
 
 // ═══════════════════════════════════════
@@ -441,20 +441,46 @@ const FIN_VEHICLE_RANKINGS = {
 
 function buildFinVehicleChart(month = 'todos') {
     const specFilter = document.getElementById('finModelFilter').value;
-    let data = FIN_VEHICLE_RANKINGS[month] || [];
+    let rawData = FIN_VEHICLE_RANKINGS[month] || [];
 
-    if (specFilter !== 'todos') {
-        data = data.filter(v => v.especie === specFilter);
+    // Map IPVA_DATA for correct especie lookup
+    const ipvaMap = {};
+    if (typeof IPVA_DATA !== 'undefined') {
+        IPVA_DATA.forEach(v => {
+            if (v.placa) ipvaMap[v.placa.replace(/\s/g, '').toUpperCase()] = v.especie;
+        });
     }
-    const bgColors = ['#2563eb', '#3b82f6', '#4f8cff', '#60a5fa', '#7dd3fc', '#93c5fd', '#a5d8ff', '#38bdf8', '#0ea5e9', '#0284c7', '#1d4ed8', '#1e40af', '#6366f1', '#818cf8', '#a78bfa', '#c084fc', '#e879f9', '#f472b6', '#fb7185', '#f87171', '#fbbf24', '#34d399', '#2dd4bf', '#22d3ee'];
+
+    // Enrich data and fix THS/TEC mismatch
+    let enrichedData = rawData.map(v => {
+        const key = v.placa.replace(/\s/g, '').toUpperCase();
+        let species = v.especie;
+        // If especie is missing or is an company ID, try to get from IPVA_DATA
+        if (!species || species === 'THS' || species === 'TEC' || species === '—') {
+            species = ipvaMap[key] || species;
+        }
+        return { ...v, especie: species };
+    });
+
+    // Apply filter
+    if (specFilter !== 'todos') {
+        enrichedData = enrichedData.filter(v => v.especie === specFilter);
+    }
+
+    // Sort descending by value and take TOP 4
+    enrichedData.sort((a, b) => b.valor - a.valor);
+    const displayData = enrichedData.slice(0, 4);
+
+    const bgColors = ['#2563eb', '#4f8cff', '#60a5fa', '#93c5fd', '#3b82f6', '#38bdf8', '#0ea5e9', '#0284c7', '#1d4ed8', '#1e40af'];
+
     createChart('finVehicleRankingChart', {
         type: 'bar',
         data: {
-            labels: data.map(v => v.placa),
+            labels: displayData.map(v => v.placa),
             datasets: [{
                 label: 'Gasto (R$)',
-                data: data.map(v => v.valor),
-                backgroundColor: bgColors.slice(0, data.length),
+                data: displayData.map(v => v.valor),
+                backgroundColor: bgColors.slice(0, displayData.length),
                 borderWidth: 0,
                 borderRadius: 8
             }]
@@ -468,7 +494,7 @@ function buildFinVehicleChart(month = 'todos') {
                 tooltip: {
                     callbacks: {
                         label: function (ctx) {
-                            const v = data[ctx.dataIndex];
+                            const v = displayData[ctx.dataIndex];
                             return `R$ ${v.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} — ${v.count} registros — ${v.especie} (${v.modelo})`;
                         }
                     }
@@ -1540,7 +1566,6 @@ function buildTollCharts(data) {
 
 function initTollModule() {
     filterToll();
-    if (window.initTollMap) initTollMap();
 }
 
 // ═══════════════════════════════════════
@@ -2153,83 +2178,3 @@ window.addEventListener('DOMContentLoaded', () => {
     safeInit(window.initPerformanceCharts, 'PerformanceCharts');
 });
 
-// ═══ TOLL MAP VISUALIZATION ═══
-function initTollMap() {
-    if (typeof L === 'undefined') {
-        console.error('Leaflet not loaded');
-        return;
-    }
-
-    const mapContainer = document.getElementById('tollMap');
-    if (!mapContainer) return;
-
-    // Check if map is already initialized
-    if (mapContainer._leaflet_id) return;
-
-    // Initialize Map centered on SP state
-    const map = L.map('tollMap').setView([-22.9, -46.5], 7);
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19
-    }).addTo(map);
-
-    // Process Location Data
-    if (typeof TOLL_LOCATIONS_DATA === 'undefined' || typeof TOLL_COORDINATES === 'undefined') {
-        console.warn('Toll data or coordinates not found');
-        return;
-    }
-
-    TOLL_LOCATIONS_DATA.forEach(loc => {
-        // Try to find coordinate match
-        let coord = TOLL_COORDINATES[loc.plaza];
-
-        // If not exact match, try fuzzy match (simple substring check)
-        if (!coord) {
-            const keys = Object.keys(TOLL_COORDINATES);
-            const match = keys.find(k => loc.plaza.includes(k) || k.includes(loc.plaza));
-            if (match) coord = TOLL_COORDINATES[match];
-        }
-
-        if (coord) {
-            // Marker styling
-            // High count = Red, High Value = Green? 
-            // Let's use Count for Size and Value for Color intensity (or vice versa)
-            // User requested: Red for frequency
-
-            const radius = Math.min(25, Math.max(6, loc.count * 1.5));
-
-            L.circleMarker([coord.lat, coord.lng], {
-                radius: radius,
-                fillColor: '#ef4444', // Red for frequency
-                color: '#ef4444',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.6
-            })
-                .bindTooltip(`
-                <div style="font-family:Inter, sans-serif; font-size:12px">
-                    <strong>${loc.plaza}</strong><br>
-                    Passagens: ${loc.count}<br>
-                    Total: ${formatBRL(loc.valor)}
-                </div>
-            `)
-                .addTo(map);
-        }
-    });
-
-    // Fix map resize issues when tab is opened
-    const observer = new ResizeObserver(() => {
-        map.invalidateSize();
-    });
-    observer.observe(mapContainer);
-
-    // Also invalidate on tab click if possible (assumes tab logic exists)
-    const tollTabBtn = document.querySelector('button[onclick="switchTab(\'toll\')"]');
-    if (tollTabBtn) {
-        tollTabBtn.addEventListener('click', () => {
-            setTimeout(() => { map.invalidateSize(); }, 300);
-        });
-    }
-}

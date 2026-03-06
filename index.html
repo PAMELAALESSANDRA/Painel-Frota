@@ -184,27 +184,37 @@
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Composição de Gastos</div>
-                    <canvas id="compositionChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="compositionChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Gastos por Tipo de Manutenção</div>
-                    <canvas id="maintenanceTypeChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="maintenanceTypeChart"></canvas>
+                    </div>
                 </div>
             </div>
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Produtos de Combustível</div>
-                    <canvas id="productsChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="productsChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Status Revisão Preventiva</div>
-                    <canvas id="overviewPreventiveChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="overviewPreventiveChart"></canvas>
+                    </div>
                 </div>
             </div>
             <div class="charts-grid">
                 <div class="chart-card" style="grid-column:1/-1">
                     <div class="chart-title"><span class="dot"></span> 🛣️ Top Trechos com Maior Gasto em Pedágio</div>
-                    <canvas id="overviewTollChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="overviewTollChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -241,18 +251,21 @@
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Distribuição de Custos por Tipo</div>
-                    <canvas id="costDistributionChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="costDistributionChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Tendência de Gastos (Janeiro)</div>
-                    <canvas id="trendChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
                 </div>
             </div>
 
             <!-- Vehicle Ranking Chart with Model Filter -->
-            <div class="chart-card" style="margin-bottom:28px">
-                <div
-                    style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+            <div class="chart-card" style="margin-bottom:12px">
+                <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                     <div class="chart-title" style="margin-bottom:0"><span class="dot"></span> Ranking de Veículos por
                         Gasto em Manutenção</div>
                     <div>
@@ -269,7 +282,9 @@
                         </select>
                     </div>
                 </div>
-                <canvas id="finVehicleRankingChart"></canvas>
+                <div class="chart-container">
+                    <canvas id="finVehicleRankingChart"></canvas>
+                </div>
             </div>
 
             <div class="expand-section">
@@ -350,7 +365,9 @@
                             <div id="driverKML" style="font-size: 14px; font-weight: bold; color: #60a5fa;">0 km/l</div>
                         </div>
                     </div>
-                    <canvas id="driverPerformanceChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="driverPerformanceChart"></canvas>
+                    </div>
                 </div>
 
                 <!-- Vehicle Performance -->
@@ -379,18 +396,24 @@
                             </div>
                         </div>
                     </div>
-                    <canvas id="vehiclePerformanceChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="vehiclePerformanceChart"></canvas>
+                    </div>
                 </div>
             </div>
 
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Consumo por Veículo — Top 10 (Litros)</div>
-                    <canvas id="fuelByVehicleChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="fuelByVehicleChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Distribuição de Produtos (Litros)</div>
-                    <canvas id="fuelProductsChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="fuelProductsChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -1017,11 +1040,15 @@
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> IPVA Total por Espécie</div>
-                    <canvas id="ipvaByModelChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="ipvaByModelChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Quantidade de Veículos por Espécie</div>
-                    <canvas id="ipvaCountByModelChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="ipvaCountByModelChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -1103,11 +1130,15 @@
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Licenciamento por Mês</div>
-                    <canvas id="licByMonthChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="licByMonthChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Status de Licenciamento</div>
-                    <canvas id="licStatusChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="licStatusChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -1191,20 +1222,18 @@
                 </div>
             </div>
 
-            <!-- MAP CONTAINER -->
-            <div class="chart-card" style="margin-bottom: 20px;">
-                <div class="chart-title"><span class="dot"></span> Mapa de Pedágios (Frequência e Custo)</div>
-                <div id="tollMap" style="height: 500px; width: 100%; border-radius: 8px;"></div>
-            </div>
-
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Gasto por Veículo — Top 10</div>
-                    <canvas id="tollByVehicleChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="tollByVehicleChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Gasto por Tipo de Veículo</div>
-                    <canvas id="tollByTypeChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="tollByTypeChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -1284,11 +1313,15 @@
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Gasto por Categoria</div>
-                    <canvas id="opsByCategoryChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="opsByCategoryChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Gasto por Fornecedor</div>
-                    <canvas id="opsBySupplierChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="opsBySupplierChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -1392,12 +1425,16 @@
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Evolução Semanal de Gastos</div>
-                    <canvas id="monthlyChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Comparativo Manutenção vs Combustível
                     </div>
-                    <canvas id="comparisonChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1488,12 +1525,16 @@
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Multas por Status</div>
-                    <canvas id="finesStatusChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="finesStatusChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <div class="chart-title"><span class="dot"></span> Ranking de Motoristas — Mais Infrações
                     </div>
-                    <canvas id="finesRankingChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="finesRankingChart"></canvas>
+                    </div>
                 </div>
             </div>
 
