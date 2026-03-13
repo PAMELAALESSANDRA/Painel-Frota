@@ -8051,10 +8051,10 @@ const DASHBOARD_DATA = {
         "2026-03-13": {
             "stats": {
                 "total_manifestos": 11,
-                "checklists_feitos": 5,
-                "pendentes": 6,
+                "checklists_feitos": 7,
+                "pendentes": 4,
                 "data_referencia": "13/03/2026",
-                "percentual_conformidade": 45.5
+                "percentual_conformidade": 63.6
             },
             "pending": [
                 {
@@ -8062,13 +8062,6 @@ const DASHBOARD_DATA = {
                     "motorista": "INGRID J TAVARES (MOT-SAO)",
                     "manifesto": "192354",
                     "horario": "06:23:00",
-                    "status": "BLOQUEADO"
-                },
-                {
-                    "placa": "EFW6601",
-                    "motorista": "ISAIAS S FERREIRA (MOT-SAO)",
-                    "manifesto": "192357",
-                    "horario": "06:26:00",
                     "status": "BLOQUEADO"
                 },
                 {
@@ -8091,13 +8084,6 @@ const DASHBOARD_DATA = {
                     "manifesto": "192367",
                     "horario": "08:29:00",
                     "status": "BLOQUEADO"
-                },
-                {
-                    "placa": "UGA2B60",
-                    "motorista": "ELTON S ANDRE (MOT-MCE)",
-                    "manifesto": "192376",
-                    "horario": "09:26:00",
-                    "status": "BLOQUEADO"
                 }
             ],
             "completed": [
@@ -8114,9 +8100,21 @@ const DASHBOARD_DATA = {
                     "status": "AUTORIZADO"
                 },
                 {
+                    "placa": "EFW6601",
+                    "motorista": "ISAIAS S FERREIRA (MOT-SAO)",
+                    "manifesto": "192357",
+                    "status": "AUTORIZADO"
+                },
+                {
                     "placa": "BXZ3F52",
                     "motorista": "FERNANDO R SOUSA (MOT-SAO)",
                     "manifesto": "192364",
+                    "status": "AUTORIZADO"
+                },
+                {
+                    "placa": "UGA2B60",
+                    "motorista": "ELTON S ANDRE (MOT-MCE)",
+                    "manifesto": "192376",
                     "status": "AUTORIZADO"
                 },
                 {
@@ -8134,5 +8132,5 @@ const DASHBOARD_DATA = {
             ]
         }
     },
-    "last_update": "13/03/2026 10:59:42"
+    "last_update": "13/03/2026 16:19:13"
 };
